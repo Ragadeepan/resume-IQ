@@ -72,6 +72,8 @@ app.use("/dashboard", dashboardRoutes);
 app.use(notFoundHandler);
 app.use(errorHandler);
 
-app.listen(env.PORT, () => {
-  console.log(`ResumeIQ API listening on http://localhost:${env.PORT}`);
+const PORT = Number(process.env.PORT) || env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`ResumeIQ API listening on port ${PORT}`);
 });
