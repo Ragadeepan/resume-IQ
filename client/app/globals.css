@@ -1,0 +1,330 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --page: #eef3f7;
+  --page-deep: #f8f3eb;
+  --ink: #0b1524;
+  --ink-soft: #24334a;
+  --muted: #607189;
+  --line: rgba(10, 23, 39, 0.1);
+  --line-strong: rgba(10, 23, 39, 0.18);
+  --surface: rgba(255, 255, 255, 0.78);
+  --surface-strong: rgba(255, 255, 255, 0.92);
+  --spot-tide: rgba(15, 155, 176, 0.22);
+  --spot-coral: rgba(255, 138, 87, 0.2);
+  --spot-sun: rgba(247, 203, 115, 0.15);
+  --spot-sky: rgba(104, 132, 255, 0.12);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-color: var(--page);
+  color: var(--ink);
+  font-family: var(--font-body), sans-serif;
+  font-feature-settings: "ss01" 1, "cv02" 1, "cv03" 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-image:
+    radial-gradient(circle at 12% 14%, var(--spot-tide), transparent 30%),
+    radial-gradient(circle at 88% 10%, var(--spot-coral), transparent 28%),
+    radial-gradient(circle at 50% 78%, var(--spot-sun), transparent 36%),
+    radial-gradient(circle at 72% 54%, var(--spot-sky), transparent 32%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.2) 18%, transparent 42%),
+    linear-gradient(135deg, var(--page), var(--page-deep));
+  background-attachment: fixed;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(10, 23, 39, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10, 23, 39, 0.035) 1px, transparent 1px);
+  background-size: 112px 112px;
+  mask-image: radial-gradient(circle at center, black 12%, transparent 84%);
+  opacity: 0.58;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.45), transparent 42%),
+    conic-gradient(from 180deg at 50% 50%, rgba(15, 155, 176, 0.05), transparent 20%, rgba(255, 138, 87, 0.05), transparent 48%, rgba(104, 132, 255, 0.04), transparent 72%, rgba(15, 155, 176, 0.05));
+  opacity: 0.78;
+}
+
+@media (max-width: 640px) {
+  body {
+    background-attachment: scroll;
+  }
+
+  body::before {
+    background-size: 76px 76px;
+  }
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display), sans-serif;
+  letter-spacing: -0.045em;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: rgba(15, 155, 176, 0.2);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+a,
+button,
+input,
+textarea {
+  transition:
+    color 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 220ms ease,
+    transform 220ms ease;
+}
+
+@keyframes floatSlow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+@keyframes pulseHalo {
+  0%,
+  100% {
+    opacity: 0.38;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.56;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .mesh-halo,
+  .float-slow,
+  .reveal-card {
+    animation: none !important;
+  }
+}
+
+@layer components {
+  .eyebrow-chip {
+    @apply inline-flex items-center gap-2 rounded-full px-4 py-2 text-[0.66rem] font-semibold uppercase tracking-[0.34em];
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(247, 250, 252, 0.62));
+    border: 1px solid rgba(255, 255, 255, 0.84);
+    color: #0f9bb0;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.82),
+      0 14px 28px rgba(9, 21, 35, 0.08);
+  }
+
+  .field-input,
+  .field-textarea {
+    width: 100%;
+    border-radius: 1.45rem;
+    border: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(247, 250, 252, 0.9));
+    color: var(--ink);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      0 16px 36px rgba(9, 21, 35, 0.05);
+  }
+
+  .field-input {
+    padding: 1rem 1.1rem;
+  }
+
+  .field-textarea {
+    padding: 1.05rem 1.15rem;
+    resize: vertical;
+  }
+
+  .field-input::placeholder,
+  .field-textarea::placeholder {
+    color: rgba(96, 113, 129, 0.82);
+  }
+
+  .field-input:focus,
+  .field-textarea:focus {
+    outline: none;
+    border-color: rgba(15, 155, 176, 0.78);
+    box-shadow:
+      0 0 0 4px rgba(15, 155, 176, 0.12),
+      0 24px 50px rgba(9, 21, 35, 0.1);
+  }
+
+  .glass-stat {
+    @apply rounded-[1.7rem] border p-4;
+    border-color: rgba(255, 255, 255, 0.68);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(245, 248, 251, 0.58));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.84),
+      0 18px 40px rgba(9, 21, 35, 0.06);
+  }
+
+  .soft-tile {
+    @apply rounded-[1.7rem] border p-5;
+    border-color: rgba(255, 255, 255, 0.74);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(246, 249, 252, 0.68));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.84),
+      0 16px 38px rgba(9, 21, 35, 0.06);
+  }
+
+  .dark-tile {
+    @apply rounded-[1.8rem] border p-5 text-white;
+    border-color: rgba(255, 255, 255, 0.1);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.05));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 18px 36px rgba(2, 9, 16, 0.18);
+  }
+
+  .metric-pill {
+    @apply inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.22em];
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.72);
+    color: var(--muted);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.82),
+      0 10px 22px rgba(9, 21, 35, 0.06);
+  }
+
+  .section-kicker {
+    @apply text-[0.72rem] font-semibold uppercase tracking-[0.3em];
+    color: rgba(96, 113, 137, 0.85);
+  }
+
+  .field-label {
+    @apply text-sm font-semibold text-slate-700;
+  }
+
+  .field-helper {
+    @apply mt-2 text-sm leading-6 text-slate-500;
+  }
+
+  .inline-alert {
+    @apply rounded-[1.5rem] border px-4 py-3 text-sm leading-6;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.75),
+      0 12px 24px rgba(9, 21, 35, 0.04);
+  }
+
+  .stat-shell {
+    @apply rounded-[1.6rem] border p-4 sm:p-5;
+    border-color: rgba(255, 255, 255, 0.76);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(244, 248, 252, 0.76));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.82),
+      0 18px 38px rgba(9, 21, 35, 0.06);
+  }
+
+  .stat-shell-dark {
+    @apply rounded-[1.6rem] border p-4 text-white sm:p-5;
+    border-color: rgba(255, 255, 255, 0.1);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 16px 34px rgba(2, 9, 16, 0.18);
+  }
+
+  .surface-badge {
+    @apply inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em];
+    border: 1px solid rgba(255, 255, 255, 0.78);
+    background: rgba(255, 255, 255, 0.74);
+    color: var(--muted);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  }
+
+  .surface-badge-positive {
+    border-color: rgba(16, 185, 129, 0.18);
+    background: rgba(236, 253, 245, 0.92);
+    color: rgb(5 150 105);
+  }
+
+  .surface-badge-danger {
+    border-color: rgba(244, 63, 94, 0.16);
+    background: rgba(255, 241, 242, 0.92);
+    color: rgb(225 29 72);
+  }
+
+  .progress-track {
+    @apply h-2.5 overflow-hidden rounded-full;
+    background: linear-gradient(90deg, rgba(15, 155, 176, 0.1), rgba(104, 132, 255, 0.1));
+  }
+
+  .progress-fill {
+    @apply h-full rounded-full;
+    background: linear-gradient(90deg, #0f9bb0, #6884ff 60%, #f7cb73);
+    box-shadow: 0 8px 18px rgba(15, 155, 176, 0.22);
+  }
+
+  .insight-item {
+    @apply flex gap-3 rounded-[1.45rem] border px-4 py-3 text-sm leading-6;
+    border-color: rgba(255, 255, 255, 0.74);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(247, 250, 252, 0.74));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  }
+
+  .reveal-card {
+    animation: riseIn 0.72s ease both;
+  }
+
+  .mesh-halo {
+    animation: pulseHalo 9s ease-in-out infinite;
+  }
+
+  .float-slow {
+    animation: floatSlow 9s ease-in-out infinite;
+  }
+}

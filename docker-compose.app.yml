@@ -1,0 +1,52 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: resumeiq-app-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: resumeiq
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - resumeiq-app-postgres-data:/var/lib/postgresql/data
+
+  server:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    container_name: resumeiq-server
+    depends_on:
+      - postgres
+    environment:
+      PORT: 5000
+      NODE_ENV: production
+      CLIENT_URL: http://localhost:3000
+      SERVER_URL: http://localhost:5000
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/resumeiq?schema=public
+      JWT_SECRET: resumeiq-production-secret-change-me
+      JWT_EXPIRES_IN: 7d
+      ACCESS_TOKEN_EXPIRES_IN: 15m
+      REFRESH_TOKEN_EXPIRES_DAYS: 7
+      EMAIL_VERIFICATION_EXPIRES_HOURS: 24
+      PASSWORD_RESET_EXPIRES_MINUTES: 30
+      REQUIRE_EMAIL_VERIFICATION: true
+    ports:
+      - "5000:5000"
+
+  client:
+    build:
+      context: .
+      dockerfile: client/Dockerfile
+    container_name: resumeiq-client
+    depends_on:
+      - server
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:5000
+    ports:
+      - "3000:3000"
+
+volumes:
+  resumeiq-app-postgres-data:
+
