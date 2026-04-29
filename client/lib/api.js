@@ -1,6 +1,10 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const buildUrl = (path, query = {}) => {
+  if (!API_BASE_URL) {
+    throw new Error("NEXT_PUBLIC_API_URL is not configured");
+  }
+
   const url = new URL(path, API_BASE_URL);
 
   Object.entries(query).forEach(([key, value]) => {
