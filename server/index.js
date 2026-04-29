@@ -13,31 +13,23 @@ import { errorHandler, notFoundHandler } from "./middlewares/errorMiddleware.js"
 import { localUploadsRoot } from "./utils/localFileStorage.js";
 
 const app = express();
-const allowedOrigins = new Set(
-  [env.CLIENT_URL, ...env.ALLOWED_ORIGINS.split(",").map((item) => item.trim()).filter(Boolean)].filter(
-    Boolean
-  )
-);
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(",")
+  : [];
 
-if (env.NODE_ENV !== "production") {
-  const clientUrl = new URL(env.CLIENT_URL);
-  if (clientUrl.hostname === "localhost") {
-    allowedOrigins.add(`${clientUrl.protocol}//127.0.0.1${clientUrl.port ? `:${clientUrl.port}` : ""}`);
-  }
-  if (clientUrl.hostname === "127.0.0.1") {
-    allowedOrigins.add(`${clientUrl.protocol}//localhost${clientUrl.port ? `:${clientUrl.port}` : ""}`);
-  }
-}
+console.log("CORS allowed origins:", allowedOrigins);
 
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.has(origin)) {
-        callback(null, true);
-        return;
-      }
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
 
-      callback(new Error("Origin is not allowed by CORS"));
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        console.error("Blocked by CORS:", origin);
+        return callback(new Error("Not allowed by CORS"));
+      }
     },
     credentials: true
   })
