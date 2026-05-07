@@ -258,7 +258,7 @@ export default function HomePage() {
             My projects
           </div>
         </div>
-        <h2 className="mt-5 text-3xl font-semibold text-ink sm:text-4xl">More things I've built</h2>
+        <h2 className="mt-5 text-3xl font-semibold text-ink sm:text-4xl">More things I&apos;ve built</h2>
         <p className="mt-3 max-w-2xl text-base leading-7 text-slate-600">
           A collection of side projects built for real use cases.
         </p>
