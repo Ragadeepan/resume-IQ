@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {
   ArrowRight,
+  ArrowUpRight,
   BarChart3,
   BriefcaseBusiness,
   CheckCircle2,
@@ -8,6 +9,7 @@ import {
   Sparkles,
   Target,
   UploadCloud,
+  Video,
   WandSparkles
 } from "lucide-react";
 
@@ -246,6 +248,49 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="mt-6 rounded-[2.5rem] border border-white/70 bg-[linear-gradient(145deg,rgba(255,255,255,0.95),rgba(244,249,252,0.86))] px-6 py-8 shadow-[0_24px_64px_rgba(9,21,35,0.1)] backdrop-blur-2xl lg:px-10">
+        <div className="flex items-center gap-3">
+          <div className="eyebrow-chip">
+            <Video className="h-4 w-4" />
+            My projects
+          </div>
+        </div>
+        <h2 className="mt-5 text-3xl font-semibold text-ink sm:text-4xl">More things I've built</h2>
+        <p className="mt-3 max-w-2xl text-base leading-7 text-slate-600">
+          A collection of side projects built for real use cases.
+        </p>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <a
+            href="https://visionmeet-75722.web.app"
+            target="_blank"
+            rel="noreferrer"
+            className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(104,214,255,0.18),transparent_28%),linear-gradient(155deg,#081726,#10263b_52%,#0d7280)] p-6 text-white shadow-[0_28px_64px_rgba(7,18,30,0.28)] transition hover:-translate-y-1"
+          >
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(145deg,rgba(255,255,255,0.08),transparent_42%)]" />
+            <div className="relative">
+              <div className="flex items-start justify-between">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/12 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
+                  <Video className="h-5 w-5 text-white" />
+                </div>
+                <ArrowUpRight className="h-5 w-5 text-slate-400 transition group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </div>
+              <h3 className="mt-5 text-2xl font-semibold">VisionMeet</h3>
+              <p className="mt-2 text-sm leading-6 text-slate-300">
+                Real-time video conferencing app with room management, peer connections, and a clean meeting UI.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {["Video calls", "WebRTC", "Real-time"].map((tag) => (
+                  <span key={tag} className="rounded-full border border-white/12 bg-white/8 px-3 py-1 text-xs font-semibold text-slate-300">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">visionmeet-75722.web.app</p>
+            </div>
+          </a>
         </div>
       </section>
 
